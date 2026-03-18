@@ -1,0 +1,65 @@
+<section class="bg-cover bg-center min-h-[70vh] flex items-center justify-center bg-gradient-to-br from-slate-100 to-slate-200 p-4">
+  <!-- Estado inicial: Búsqueda de guía -->
+  <p-toast />
+
+  <div *ngIf="showDetailsPackage === 0" class="w-full max-w-3xl">
+    <div class="bg-white/90 backdrop-blur-sm rounded-xl shadow-lg overflow-hidden flex flex-col md:flex-row">
+      <!-- Sección informativa -->
+      <div class="w-full md:w-1/2 bg-gradient-to-r from-amber-400 to-amber-500 p-8 text-white">
+        <div class="flex items-center mb-4">
+          <i class="pi pi-map-marker text-3xl mr-3"></i>
+          <h2 class="text-2xl font-bold">Rastrea tu paquete</h2>
+        </div>
+        <p class="text-amber-100">Ingresa tu número de guía en el campo de texto para conocer el estado actual de tu envío.</p>
+        <div class="mt-6 flex items-center">
+          <i class="pi pi-info-circle mr-2"></i>
+          <span class="text-sm">Ejemplo: OC123456789MX</span>
+        </div>
+      </div>
+
+      <!-- Sección de búsqueda -->
+      <div class="w-full md:w-1/2 p-8 flex flex-col justify-center">
+        <div class="relative">
+          <span class="p-float-label">
+            <input
+              pInputText
+              id="tracking-number"
+              [(ngModel)]="value"
+              class="w-full mb-4"
+              placeholder="OC0000000000" />
+            <label for="tracking-number">Número de guía</label>
+          </span>
+
+          <p-button
+            label="Rastrear"
+            (onClick)="rastrearPaquete()"
+            icon="pi pi-search"
+            [rounded]="true"
+            severity="danger"
+            class="w-full mt-2"
+            [disabled]="!value">
+          </p-button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Información adicional -->
+    <div class="mt-6 text-center text-slate-600">
+      <p>¿No tienes tu número de guía? <a class="text-amber-600 hover:underline cursor-pointer">Contáctanos</a></p>
+    </div>
+  </div>
+
+  <!-- Estado: Resultados de rastreo -->
+  <div *ngIf="showDetailsPackage === 1" class="w-full max-w-5xl animate-fadeIn">
+    <app-rastreo-view [data]="packageSearching"></app-rastreo-view>
+
+    <div class="text-center mt-6">
+      <p-button
+        label="Nueva búsqueda"
+        icon="pi pi-arrow-left"
+        (onClick)="showDetailsPackage = 0"
+        styleClass="p-button-outlined p-button-secondary">
+      </p-button>
+    </div>
+  </div>
+</section>

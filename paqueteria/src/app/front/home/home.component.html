@@ -1,0 +1,71 @@
+<section id="services" class="bg-white">
+
+  <div class="bg-[#0a1a16] w-full h-44 py-4">
+    <div class="grid grid-cols-4  gap-1 w-full">
+
+      <div class="overflow-hidden">
+        <img src="https://images.unsplash.com/photo-1512918728675-ed5a9ecdebfd?q=80&w=800&auto=format&fit=crop"
+          alt="Propiedad moderna" class="h-3/6 w-full object-cover">
+      </div>
+
+      <div class="overflow-hidden ">
+        <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=800&auto=format&fit=crop"
+          alt="Casa de lujo" class="h-3/6 w-full object-cover">
+      </div>
+
+      <div class="overflow-hidden ">
+        <img src="https://images.unsplash.com/photo-1519567241046-7f570eee3ce6?q=80&w=800&auto=format&fit=crop"
+          alt="Interior comercial" class="h-3/6 w-full object-cover">
+      </div>
+
+      <div class="overflow-hidden ">
+        <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=800&auto=format&fit=crop"
+          alt="Edificio corporativo" class="h-3/6 w-full object-cover">
+      </div>
+    </div>
+  </div>
+
+  <div class="container mx-auto px-6 pb-16">
+
+    <div class="flex flex-col items-center ">
+      <img src="../../../assets/Logo_principal.png" alt="Inmobiness" class=" mb-2"
+        style="width:  25rem; height: 20rem;">
+    </div>
+
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-5xl mx-auto">
+
+      <div class="flex flex-col items-center cursor-pointer group" [routerLink]="['/comprar']">
+        <div
+          class="w-20 h-20 rounded-full bg-[#0a1a16]  flex items-center justify-center mb-4 transition-transform group-hover:scale-110">
+          <i class="pi pi-home text-[#a68b6d] text-xl" style="font-size: 2rem"></i>
+        </div>
+        <span class="text-[#a68b6d] font-bold text-md tracking-[0.2em] uppercase">Comprar</span>
+      </div>
+
+      <div class="flex flex-col items-center cursor-pointer group" [routerLink]="['/rentar']">
+        <div
+          class="w-20 h-20 rounded-full bg-[#0a1a16] flex items-center justify-center mb-4 transition-transform group-hover:scale-110">
+          <i class="pi pi-home text-[#a68b6d] text-5xl" style="font-size: 2rem"></i>
+        </div>
+        <span class="text-[#a68b6d] font-bold text-md tracking-[0.2em] uppercase">Rentar</span>
+      </div>
+
+      <div class="flex flex-col items-center cursor-pointer group" [routerLink]="['/vender']">
+        <div
+          class="w-20 h-20 rounded-full bg-[#0a1a16] flex items-center justify-center mb-4 transition-transform group-hover:scale-110">
+          <i class="pi pi-home text-[#a68b6d] text-xl" style="font-size: 2rem"></i>
+        </div>
+        <span class="text-[#a68b6d] font-bold text-md tracking-[0.2em] uppercase">Vender</span>
+      </div>
+
+      <div class="flex flex-col items-center cursor-pointer group" routerLink]="['/arrendar']">
+        <div
+          class="w-20 h-20 rounded-full bg-[#0a1a16] flex items-center justify-center mb-4 transition-transform group-hover:scale-110">
+          <i class="pi pi-home text-[#a68b6d] text-xl" style="font-size: 2rem"></i>
+        </div>
+        <span class="text-[#a68b6d] font-bold text-md tracking-[0.2em] uppercase">Arrendar</span>
+      </div>
+
+    </div>
+  </div>
+</section>

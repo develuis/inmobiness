@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ExpressEnvíos - Soluciones Logísticas Confiables</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #f59e0b;
+            --dark: #1e293b;
+            --light: #f8fafc;
+        }
+        body {
+            font-family: 'Open Sans', sans-serif;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        h1, h2, h3, h4 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+        }
+        .hero-overlay {
+            background: linear-gradient(135deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 100%);
+        }
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        .testimonial-card {
+            position: relative;
+        }
+        .testimonial-card:before {
+            content: '"';
+            position: absolute;
+            top: -10px;
+            left: 10px;
+            font-size: 4rem;
+            color: var(--primary);
+            opacity: 0.2;
+            font-family: serif;
+        }
+        .btn-primary {
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+
+
+    <!-- Services Section -->
+    <section id="services" class="py-20 bg-white min-h-screen">
+
+
+
+       <div class="container mx-auto px-6">
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-16">
+            <div class="rounded-xl shadow-lg overflow-hidden h-96 w-full">
+              <img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1473&q=80"
+                   alt="Propiedad moderna"
+                   class=" h-full object-cover">
+            </div>
+
+            <div class="rounded-xl shadow-lg overflow-hidden h-96 w-full">
+              <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+                   alt="Casa de lujo"
+                   class="
+                   h-full object-cover">
+            </div>
+
+            <div class="rounded-xl shadow-lg overflow-hidden h-96 w-full">
+              <img src="https://images.unsplash.com/photo-1605276374104-dee2a0ed3cd6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+                   alt="Departamento contemporáneo"
+                   class=" h-full object-cover">
+            </div>
+          </div>
+
+
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <span class="inline-block px-3 py-1 text-sm font-semibold text-blue-600 bg-blue-100 rounded-full mb-4">Selecciona</span>
+                <h2 class="text-4xl font-bold mb-4">Tipo de perfíl
+
+                </h2>
+            </div>
+
+            <div class="container mx-auto px-6">
+              <!-- Primera fila de servicios -->
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-8 h-64 mb-8">
+                <!-- Casa -->
+                <div class="service-card bg-white p-4 rounded-lg shadow-sm border border-slate-100 flex flex-col items-center justify-center cursor-pointer hover:shadow-md transition duration-300">
+                  <div class="text-blue-600 mb-2">
+                    <i class="pi pi-home" style="font-size: 2rem"></i>
+                  </div>
+                  <a [routerLink]="['/login']" class="font-medium text-4xl">Propietario</a>
+                </div>
+
+                <!-- Departamento -->
+                <div class="service-card bg-white p-4 rounded-lg shadow-sm border border-slate-100 flex flex-col items-center justify-center cursor-pointer hover:shadow-md transition duration-300">
+                  <div class="text-blue-600 mb-2">
+                    <i class="pi pi-building" style="font-size: 2rem"></i>
+                  </div>
+                  <a [routerLink]="['/login']" class="font-medium text-4xl">Corredor</a>
+                </div>
+
+                <!-- Local -->
+                <div class="service-card bg-white p-4 rounded-lg shadow-sm border border-slate-100 flex flex-col items-center justify-center cursor-pointer hover:shadow-md transition duration-300">
+                  <div class="text-blue-600 mb-2">
+                    <i class="pi pi-user" style="font-size: 2rem"></i>
+                  </div>
+                  <span class="font-medium text-4xl">Asesor</span>
+                </div>
+
+
+              </div>
+
+
+            </div>                <!-- Service 1 -->
+
+
+
+
+        </div>
+    </section>
+
+
+
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/primeicons/primeicons.js"></script>
+</body>
+</html>

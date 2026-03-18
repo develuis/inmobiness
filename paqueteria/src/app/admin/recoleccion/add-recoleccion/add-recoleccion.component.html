@@ -1,0 +1,125 @@
+<!-- Encabezado principal -->
+<div class="mb-6">
+  <h2 class="text-2xl font-bold text-gray-800">Agregar nueva propiedad</h2>
+  <p class="text-sm text-gray-500 mt-1">Completa los siguientes campos para registrar una propiedad en el sistema.</p>
+</div>
+
+<p-card header="Formulario de registro de propiedad">
+  <form [formGroup]="propiedadForm" (ngSubmit)="guardarPropiedad()" class="space-y-4">
+
+    <!-- Tipo de propiedad -->
+    <div>
+      <label class="block text-sm font-medium mb-2">Tipo de propiedad</label>
+      <p-selectButton
+        formControlName="tipoPropiedad"
+        [options]="tiposPropiedad"
+        optionLabel="label"
+        class="w-full"
+      />
+    </div>
+
+    <!-- Título y subtítulo -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div>
+        <label class="block text-sm font-medium mb-1">Título</label>
+        <input type="text" pInputText formControlName="titulo" class="w-full" />
+      </div>
+      <div>
+        <label class="block text-sm font-medium mb-1">Subtítulo</label>
+        <input type="text" pInputText formControlName="subTitulo" class="w-full" />
+      </div>
+    </div>
+
+    <!-- Imagen con FileUpload -->
+    <div>
+      <label class="block text-sm font-medium mb-1">Imagen de la propiedad</label>
+      <p-fileUpload
+        name="imagen"
+        customUpload="true"
+        (uploadHandler)="subirImagen($event)"
+        accept="image/*"
+        maxFileSize="1000000"
+        chooseLabel="Seleccionar imagen"
+        uploadLabel="Subir"
+        cancelLabel="Cancelar"
+        [auto]="false"
+        [showUploadButton]="true"
+        [showCancelButton]="true"
+        class="w-full"
+      />
+      <input type="hidden" formControlName="imagenUrl" />
+    </div>
+
+    <!-- Medidas -->
+    <div class="grid grid-cols-3 gap-4">
+      <div>
+        <label class="block text-sm font-medium mb-1">Terreno (m²)</label>
+        <p-inputNumber formControlName="terreno" [min]="1" [showButtons]="true" class="w-full" />
+      </div>
+      <div>
+        <label class="block text-sm font-medium mb-1">Construcción (m²)</label>
+        <p-inputNumber formControlName="construccion" [min]="1" [showButtons]="true" class="w-full" />
+      </div>
+      <div>
+        <label class="block text-sm font-medium mb-1">Recámaras</label>
+        <p-inputNumber formControlName="recamaras" [min]="1" [showButtons]="true" class="w-full" />
+      </div>
+    </div>
+
+    <!-- Baños -->
+    <div>
+      <label class="block text-sm font-medium mb-1">Baños</label>
+      <p-inputNumber formControlName="banos" [step]="0.5" [min]="0.5" [showButtons]="true" class="w-full" />
+    </div>
+
+    <!-- Áreas -->
+    <div>
+      <label class="block text-sm font-medium mb-1">Áreas (separadas por coma)</label>
+      <input type="text" pInputText formControlName="areas" class="w-full" />
+    </div>
+
+    <!-- Servicios -->
+    <div>
+      <label class="block text-sm font-medium mb-1">Servicios (emojis o texto)</label>
+      <input type="text" pInputText formControlName="servicios" class="w-full" />
+    </div>
+
+    <!-- Renta -->
+    <fieldset class="border p-4 rounded">
+      <legend class="text-sm font-semibold">Renta</legend>
+      <div [formGroupName]="'renta'">
+        <div class="grid grid-cols-3 gap-4">
+          <p-checkbox formControlName="amueblado" label="Amueblado"></p-checkbox>
+          <p-checkbox formControlName="petFriendly" label="Pet Friendly"></p-checkbox>
+          <p-checkbox formControlName="ninos" label="Se admiten niños"></p-checkbox>
+        </div>
+        <div class="grid grid-cols-3 gap-4 mt-4">
+          <div>
+            <label class="block text-sm font-medium mb-1">Mensualidad</label>
+            <p-inputNumber formControlName="mensualidad" [mode]="'currency'" currency="MXN" class="w-full" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-1">Mantenimiento</label>
+            <p-inputNumber formControlName="mantenimiento" [mode]="'currency'" currency="MXN" class="w-full" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-1">Depósito</label>
+            <p-inputNumber formControlName="deposito" [mode]="'currency'" currency="MXN" class="w-full" />
+          </div>
+        </div>
+      </div>
+    </fieldset>
+
+    <!-- Puntos de interés -->
+    <div>
+      <label class="block text-sm font-medium mb-1">Puntos de interés (separados por coma)</label>
+      <input type="text" pInputText formControlName="puntosInteres" class="w-full" />
+    </div>
+
+    <!-- Botón de guardar -->
+    <div class="flex justify-between mt-6">
+      <p-button label="Regresar" icon="pi pi-chevron-left" [routerLink]="['/admin/paquetes']" type="text" severity="secondary" [rounded]="true" />
+      <p-button label="Guardar propiedad" icon="pi pi-save" type="submit" severity="primary" [rounded]="true" />
+    </div>
+  </form>
+</p-card>

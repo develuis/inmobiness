@@ -1,0 +1,22 @@
+/* Estilos personalizados si los necesitas */
+.bg-white\/10 {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.text-white\/60 {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.hover\:bg-blue-500:hover {
+  background-color: #3b82f6;
+}
+
+.transition-all {
+  transition: all 0.3s ease;
+}
+
+/* Asegurar accesibilidad */
+a:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}

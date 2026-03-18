@@ -1,0 +1,90 @@
+@if(!loaded){
+    <app-preloader></app-preloader>
+}
+@else{
+ 
+    <div class="w-100">
+        <!-- TITLE SECTION -->
+        <div class="flex justify-between w-100">
+            <h1 class="text-2xl font-bold text-gray-700">Usuarios</h1>
+            <div>
+                <p-button icon="pi pi-plus" 
+                    [routerLink]="['/admin/users/view/0']"
+                    outlined="true"
+                    label="Agregar Usuario"
+                    severity="primary">
+                </p-button>
+            
+            </div>
+        </div>
+
+        <!-- MAIN SECTION -->
+        <div class="w-100 py-4">
+            <p-table [value]="data" [tableStyle]="{ 'min-width': '50rem' }" dataKey="id"
+                #dt2  [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
+                [paginator]="true" currentPageReportTemplate="Mostrando {first} hasta {last} of {totalRecords}"
+                [globalFilterFields]="['name','email',]">
+                <ng-template pTemplate="caption">
+                    <div class="flex justify-end pt-2">
+                        
+                        <div class="border-gray-200">
+                            <div class="w-64 flex p-2 h-10 items-center gap-2 text-gray-400 ">
+                                <i class="pi pi-search"></i> 
+                                <input type="search" (input)="dt2.filterGlobal($any($event.target).value , 'contains')" placeholder="Buscar" class="p-2 outline-none">
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header" let-columns>
+                    <tr>
+                        <th class="text-center">ID</th>
+                        <th class="text-center">Nombre</th>
+                        <th class="text-center">Email</th>
+                        <th class="text-center">Cuenta</th>
+
+                        <th ></th>
+
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-columns="columns">
+
+                    <tr>
+                        <td class="text-center">{{ rowData.id }}</td>
+                        <td class="text-center">{{ rowData.name }}</td>
+                        <td class="text-center">{{ rowData.email }}</td>
+                        <td class="text-center">
+                            @if(rowData.level == 1){
+                                <span class="bg-green-500 p-2 text-white rounded-lg">Administrador</span>
+                            }
+                            @else{
+                                <span class="bg-purple-500 p-2 text-white rounded-lg">Empleado</span>
+                            }
+                        
+                        </td>
+
+                        <td class="text-end flex gap-2">
+                            <p-button icon="pi pi-pencil" [rounded]="true" class=" text-yellow-500" 
+                                [routerLink]="['/admin/users/view/', rowData.id]"
+                                outlined="true"
+                                severity="warn"
+                                />
+                                
+                            <p-button icon="pi pi-trash" [rounded]="true" class="text-pink-500"   
+                                outlined="true"
+                                severity="danger"
+                                (click)="confirmDelete(rowData.id)"  />
+                            
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+
+
+
+
+        </div> 
+        <!-- END MAIN SECTION -->
+    </div>
+   <p-toast />
+<p-confirmDialog />
+}

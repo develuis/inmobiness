@@ -1,0 +1,81 @@
+<div class="w-100">
+  <!-- TITLE SECTION -->
+  <div class="flex justify-between w-100">
+      <h1 class="text-2xl font-bold text-gray-700">
+          @if(is_edit){
+              <span>Editar Cliente</span>
+          }@else{
+              <span>Agregar Cliente</span>
+          }
+      </h1>
+      <div>
+          <button type="button"
+              class="text-pink-500 px-4 py-2 rounded-lg focus:outline-none hover:text-pink-200"
+              [routerLink]="['/admin/clients']">
+              <i class="pi pi-arrow-left"></i> Volver
+          </button>
+      </div>
+  </div>
+
+  <!-- MAIN SECTION -->
+  <div class="w-100 py-4">
+      <form [formGroup]="form">
+          <!-- Primera fila de campos -->
+          <div class="flex flex-wrap gap-4 mb-4">
+              <div class="flex-1 min-w-[200px]">
+                  <label class="text-sm block mb-1">Nombre</label>
+                  <input type="text" pInputText formControlName="name" class="w-full p-2 border border-gray-300 rounded" />
+              </div>
+
+
+          </div>
+
+          <!-- Segunda fila de campos (nuevos) -->
+          <div class="flex flex-wrap gap-4 mb-4">
+              <div class="flex-1 min-w-[200px]">
+                  <label class="text-sm block mb-1">RFC</label>
+                  <input type="text" pInputText formControlName="rfc" class="w-full p-2 border border-gray-300 rounded" />
+              </div>
+              <div class="flex-1 min-w-[200px]">
+                  <label class="text-sm block mb-1">Teléfono</label>
+                  <input type="text" pInputText formControlName="phone" class="w-full p-2 border border-gray-300 rounded" />
+              </div>
+              <div class="flex-1 min-w-[200px]">
+                  <label class="text-sm block mb-1">Saldo</label>
+                  <input type="number" pInputText formControlName="balance" class="w-full p-2 border border-gray-300 rounded" />
+              </div>
+          </div>
+
+          <!-- Tercera fila de campos (dirección y coordenadas) -->
+          <div class="flex flex-wrap gap-4 mb-4">
+              <div class="flex-1 min-w-[300px]">
+                  <label class="text-sm block mb-1">Dirección</label>
+                  <textarea pInputTextarea formControlName="address" rows="2"
+                      class="w-full p-2 border border-gray-300 rounded"></textarea>
+              </div>
+              <div class="flex gap-4 flex-1 min-w-[200px]">
+                  <div class="flex-1">
+                      <label class="text-sm block mb-1">Latitud</label>
+                      <input type="number" pInputText formControlName="lat" class="w-full p-2 border border-gray-300 rounded" />
+                  </div>
+                  <div class="flex-1">
+                      <label class="text-sm block mb-1">Longitud</label>
+                      <input type="number" pInputText formControlName="log" class="w-full p-2 border border-gray-300 rounded" />
+                  </div>
+              </div>
+          </div>
+
+          <!-- Botón de guardar -->
+          <div class="mt-6">
+              <button type="button"
+                  [disabled]="form.invalid"
+                  (click)="save()"
+                  class="bg-green-500 text-white px-6 py-2 rounded-lg focus:outline-none hover:bg-green-600 transition-colors">
+                  <i class="pi pi-check mr-2"></i> Guardar
+              </button>
+          </div>
+      </form>
+  </div>
+</div>
+<p-toast />
+<p-confirmDialog />

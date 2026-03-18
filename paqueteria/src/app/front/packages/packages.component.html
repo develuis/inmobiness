@@ -1,0 +1,89 @@
+<div class=" mx-auto w-full px-4 py-8 h-screen">
+  <h1 class="text-2xl font-bold text-gray-800 mb-6">Historial de Guías</h1>
+
+  <div class="card">
+    <p-table
+      [value]="guias"
+      [paginator]="true"
+      [rows]="10"
+      [showCurrentPageReport]="true"
+      currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros"
+      [rowsPerPageOptions]="[10,25,50]"
+      [scrollable]="true"
+    scrollHeight="800px"
+      styleClass="p-datatable-striped p-datatable-gridlines"
+      [globalFilterFields]="['product','track_number','status']">
+
+    <!--   <ng-template pTemplate="caption">
+        <div class="flex justify-content-between align-items-center">
+          <h2>Historial de Guías</h2>
+          <span class="p-input-icon-left">
+            <i class="pi pi-search"></i>
+           <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Buscar..." /
+          </span>
+        </div>
+      </ng-template>
+>-->
+      <ng-template pTemplate="header">
+        <tr>
+          <th pSortableColumn="product">Producto <p-sortIcon field="product"></p-sortIcon></th>
+          <th pSortableColumn="id_region">Región <p-sortIcon field="id_region"></p-sortIcon></th>
+          <th pSortableColumn="id_address_from">Origen <p-sortIcon field="id_address_from"></p-sortIcon></th>
+          <th pSortableColumn="id_address_to">Destino <p-sortIcon field="id_address_to"></p-sortIcon></th>
+          <th pSortableColumn="id_client">Cliente <p-sortIcon field="id_client"></p-sortIcon></th>
+          <th pSortableColumn="id_type">Tipo <p-sortIcon field="id_type"></p-sortIcon></th>
+          <th pSortableColumn="id_size">Tamaño <p-sortIcon field="id_size"></p-sortIcon></th>
+          <th pSortableColumn="id_weight">Peso <p-sortIcon field="id_weight"></p-sortIcon></th>
+          <th pSortableColumn="id_pick">Recolección <p-sortIcon field="id_pick"></p-sortIcon></th>
+          <th pSortableColumn="address_type">Tipo Dirección <p-sortIcon field="address_type"></p-sortIcon></th>
+          <th pSortableColumn="note">Notas <p-sortIcon field="note"></p-sortIcon></th>
+          <th pSortableColumn="price">Precio <p-sortIcon field="price"></p-sortIcon></th>
+          <th pSortableColumn="status">Estado <p-sortIcon field="status"></p-sortIcon></th>
+          <th pSortableColumn="pick_date">Fecha Recolección <p-sortIcon field="pick_date"></p-sortIcon></th>
+          <th pSortableColumn="track_number">N° Seguimiento <p-sortIcon field="track_number"></p-sortIcon></th>
+          <th pSortableColumn="phone">Telefono Cliente<p-sortIcon field="track_number"></p-sortIcon></th>
+          <th>Acciones</th>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="body" let-guia>
+        <tr>
+          <td>{{guia.product}}</td>
+          <td>{{guia.region.name}}</td>
+          <td>{{guia.address_from.street}}</td>
+          <td>{{guia.address_to.street}}</td>
+          <td>{{guia.client.user.name}}</td>
+          <td>{{guia.id_type}}</td>
+          <td>{{guia.size.description}}</td>
+          <td>{{guia.weight.description}}</td>
+          <td>{{guia.pick.description}}</td>
+          <td>{{guia.address_type}}</td>
+          <td>{{guia.note}}</td>
+          <td>${{guia.price }}</td>
+          <td>
+            <p-tag [value]="guia.status.status"
+                   severity="success"></p-tag>
+          </td>
+          <td>{{guia.pick_date | date:'yyy-mm-dd h:m:s' }}</td>
+          <td>{{guia.track_number }}</td>
+          <td>{{guia.client.phone }}</td>
+          <td>
+            <p-button
+            pButton
+            type="button"
+            label="pdf"
+            (click)="downloadPdf(guia)"
+            class="p-button-primary ">
+        </p-button>
+          </td>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="15">No se encontraron guías</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>

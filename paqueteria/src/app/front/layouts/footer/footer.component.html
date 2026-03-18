@@ -1,0 +1,54 @@
+<footer class="bg-gray-800 text-white mt-auto">
+  <div class="bg-slate-900 text-white">
+    <div class="container mx-auto px-6 py-8">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+        <!-- Columna 1: Empresa -->
+        <div>
+          <h4 class="font-bold mb-4 text-lg">Empresa</h4>
+          <ul class="space-y-2 text-slate-300">
+            <li *ngFor="let link of companyLinks">
+              <a [href]="link.href"
+                 class="hover:text-white transition duration-300">
+                {{link.label}}
+              </a>
+            </li>
+            <li class="pt-4 text-slate-400 text-sm">
+              <p>&copy; {{getCurrentYear()}} Inmobiness. Todos los derechos reservados.</p>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Columna 2: Navegación -->
+        <div>
+          <h4 class="font-bold mb-4 text-lg">Navegación</h4>
+          <ul class="space-y-2 text-slate-300">
+            <li *ngFor="let link of navigationLinks">
+              <a [href]="link.href"
+                 class="hover:text-white transition duration-300">
+                {{link.label}}
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="font-bold mb-4 text-lg">Síguenos</h4>
+          <div class="flex flex-col md:flex-col md:items-start gap-4">
+
+            <a *ngFor="let social of socialLinks"
+               [href]="social.href"
+               class="flex  justify-start gap-2 {{social.colorClass}} text-white px-4 py-3 rounded-lg shadow-lg transition duration-300 w-full md:w-auto">
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                <path [attr.d]="social.icon"></path>
+              </svg>
+              <span class="font-medium">{{social.username}}</span>
+            </a>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</footer>

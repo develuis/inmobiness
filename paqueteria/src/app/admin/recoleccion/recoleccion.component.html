@@ -1,0 +1,53 @@
+<!-- Botón para agregar propiedad -->
+<div class="flex justify-end mb-4">
+  <p-button
+    label="Agregar propiedad"
+    icon="pi pi-plus"
+    severity="success"
+    [rounded]="true"
+    (onClick)="agregarPropiedad()"
+  />
+</div>
+
+<!-- Tarjeta de propiedad -->
+<p-card header="Casa en zona residencial" subheader="Col. Centro, Chihuahua">
+  <ng-template pTemplate="header">
+    <img src="https://via.placeholder.com/400x250" alt="Propiedad" class="w-full h-48 object-cover rounded" />
+  </ng-template>
+
+  <div class="text-sm text-gray-700 mt-3">
+    <p><strong>Terreno:</strong> 200 m²</p>
+    <p><strong>Construcción:</strong> 180 m²</p>
+    <p><strong>Recámaras:</strong> 3 con armarios</p>
+    <p><strong>Baños:</strong> 2.5</p>
+    <p><strong>Áreas:</strong> Cocina, Sala, Oficina, Lavandería</p>
+  </div>
+
+  <div class="text-sm text-gray-700 mt-3">
+    <strong>Servicios:</strong>
+    <div class="flex gap-2 text-lg mt-1">
+      💧 🚽 💡 🔥 📞 🌐
+    </div>
+  </div>
+
+  <div class="text-sm text-gray-700 mt-3">
+    <strong>Renta:</strong>
+    <p>Estado: Amueblado</p>
+    <p>☺ Pet Friendly: Sí</p>
+    <p>☼ Se admiten niños: Sí</p>
+    <p>Mensualidad: $25,000</p>
+    <p>Mantenimiento: $1,500</p>
+    <p>Depósito: $50,000</p>
+  </div>
+
+  <div class="text-sm text-gray-700 mt-3">
+    <strong>Puntos de interés (1.5km):</strong>
+    <p>Parque, Escuela, Supermercado</p>
+  </div>
+
+  <ng-template pTemplate="footer">
+    <div class="flex justify-end mt-4">
+      <p-button label="Ver detalles" icon="pi pi-eye" severity="info" [rounded]="true" />
+    </div>
+  </ng-template>
+</p-card>

@@ -1,0 +1,359 @@
+@if(!loaded){
+    <app-preloader></app-preloader>
+}
+@else{
+    <div class="w-100">
+        <!-- TITLE SECTION -->
+         <div class="flex justify-between w-100">
+            <div>
+                <h1 class="text-2xl font-bold text-gray-700">{{data.user.name}}</h1>
+                <h2 class="text-xs font-bold text-gray-400">{{data.user.email}} - {{data.phone}}</h2>
+                <h3 class="text-xs font-bold text-gray-400">{{data.address}}</h3>
+            </div>
+            <div class="text-center">
+                <span class="text-xs font-bold text-gray-400">SALDO</span>
+                <h5  class="text-2xl font-bold text-gray-700">{{data.balance | currency:'USD'}}</h5>
+            </div>
+         </div>
+         <div class="flex justify-end py-4 gap-2">
+            
+            <p-button label="Historial" icon="pi pi-list" [outlined]="true" class="font-thin  p-2" 
+                [severity]="status_view==1 ? 'warn' : 'secondary'"
+                (click)="status_view=1" />
+            <p-button label="Pagos" icon="pi pi-wallet" [outlined]="true" class="font-thin p-2"  
+                [severity]="status_view==2 ? 'warn' : 'secondary'"
+                (click)="status_view=2"/>
+            <p-button label="Direcciones" icon="pi pi-map" [outlined]="true" class="font-thin p-2"  
+                [severity]="status_view==3 ? 'warn' : 'secondary'"
+                (click)="status_view=3"/>
+
+         </div>
+        <!-- MAIN SECTION -->
+         <div class="w-100 py-4">
+            <!-- Historial de pedidos -->
+            @if(status_view == 1){
+                <h2 class="text-1xl font-bold text-gray-500">Historial de envíos</h2>
+                <p-table [value]="payments" [tableStyle]="{ 'min-width': '50rem' }" dataKey="id"
+                    #dt2  [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
+                    [paginator]="true" currentPageReportTemplate="Mostrando {first} hasta {last} of {totalRecords}"
+                    [globalFilterFields]="['user.name','user.email','saldo']">
+                    <ng-template pTemplate="caption">
+                        <div class="flex justify-end pt-2">
+                            
+                            <div class="border-gray-200">
+                                <div class="w-64 flex p-2 h-10 items-center gap-2 text-gray-400 ">
+                                    <i class="pi pi-search"></i> 
+                                    <input type="search" (input)="dt2.filterGlobal($any($event.target).value , 'contains')" placeholder="Buscar" class="p-2 outline-none">
+                                </div>
+                            </div>
+                        </div>
+                    </ng-template>
+                    <ng-template pTemplate="header" let-columns>
+                        <tr>
+                            <th class="text-center"># GUIA</th>
+                            <th class="text-center">DIRECCIÓN</th>
+                            <th class="text-center">COSTO</th>
+                            <th class="text-center">STATUS</th>
+
+                            <th style="width: 200px;"></th>
+
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-rowData let-columns="columns">
+
+                        <tr>
+                            <td class="text-center">{{ rowData.id }}</td>
+                            <td class="text-center">{{ rowData.user.name }}</td>
+                            <td class="text-center">{{ rowData.user.email }}</td>
+                            <td class="text-center">{{ rowData.saldo | currency:'USD' }}</td>
+
+                            <td class="text-end">
+                                <p-button [routerLink]="['/admin/clients/'+rowData.id]" label="Ver Cliente" icon="pi pi-eye" iconPos="left" class="text-blue-500 text-sm" />
+                            </td>
+                        </tr>
+                    </ng-template>
+            </p-table>
+            }
+            
+            <!-- HISTORIAL DE PAGOS -->
+            @if(status_view == 2){
+               
+                <div class="flex justify-between">
+                    <h2 class="text-1xl font-bold text-gray-500">Historial de pagos</h2>
+                    <div>
+                        <button  type="button" 
+                            class="text-pink-500 px-4 py-2 rounded-lg focus:outline-none hover:text-pink-200" (click)="showDialog()" label="Show">
+                            <i class="pi pi-plus"></i> Nuevo Pago
+                      </button>
+                     
+                    </div>
+                </div>
+                <p-table [value]="history" [tableStyle]="{ 'min-width': '50rem' }" dataKey="id"
+                    #dt2  [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
+                    [paginator]="true" currentPageReportTemplate="Mostrando {first} hasta {last} of {totalRecords}"
+                    [globalFilterFields]="['user.name','user.email','saldo']">
+                    <ng-template pTemplate="caption">
+                        <div class="flex justify-end pt-2">
+                            
+                            <div class="border-gray-200">
+                                <div class="w-64 flex p-2 h-10 items-center gap-2 text-gray-400 ">
+                                    <i class="pi pi-search"></i> 
+                                    <input type="search" (input)="dt2.filterGlobal($any($event.target).value , 'contains')" placeholder="Buscar" class="p-2 outline-none">
+                                </div>
+                            </div>
+                        </div>
+                    </ng-template>
+                    <ng-template pTemplate="header" let-columns>
+                        <tr>
+                            <th class="text-center">FECHA</th>
+                            <th class="text-center">MONTO</th>
+                            <th class="text-center">COMPROBANTE</th>
+                            <th class="text-center">STATUS</th>
+                            <th style="width: 200px;"></th>
+
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-rowData let-columns="columns">
+
+                        <tr>
+                            <td class="text-center">{{ rowData.created_at | date:'yyy-mm-dd h:m:s' }}</td>
+                            <td class="text-center">{{ rowData.amount | currency:'USD'  }}</td>
+                            <td class="text-center">
+                                <a href="#"><i class="pi pi-download"></i> {{ rowData.file }}</a>
+                            </td>
+                            <td class="text-center">
+                                @if(rowData.confirmed){
+                                    <span class="bg-green-500 p-2 text-white rounded-lg">Confirmado</span>
+                                }
+                                @else{
+                                    <span class="bg-purple-500 p-2 text-white rounded-lg">Sin Confirmar</span>
+                                }
+                            </td>
+
+                            <td class="text-end">
+                                @if(!rowData.confirmed){
+                                    <p-button label="" icon="pi pi-check" [outlined]="true" 
+                                        (click)="confirmPayment(rowData.id)" />
+                                }
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            }
+             <!-- Direcciones -->
+             @if(status_view == 3){
+               
+                <div class="flex justify-between">
+                    <h2 class="text-1xl font-bold text-gray-500">Direcciones</h2>
+                    <div>
+                        <button  type="button" 
+                            class="text-pink-500 px-4 py-2 rounded-lg focus:outline-none hover:text-pink-200" (click)="showDialogAddress()" label="Show">
+                            <i class="pi pi-plus"></i> Nueva Dirección
+                      </button>
+                     
+                    </div>
+                </div>
+                <p-table [value]="address" [tableStyle]="{ 'min-width': '50rem' }" dataKey="id"
+                    #dt2  [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
+                    [paginator]="true" currentPageReportTemplate="Mostrando {first} hasta {last} of {totalRecords}"
+                    [globalFilterFields]="['user.name','user.email','saldo']">
+                    <ng-template pTemplate="caption">
+                        <div class="flex justify-end pt-2">
+                            
+                            <div class="border-gray-200">
+                                <div class="w-64 flex p-2 h-10 items-center gap-2 text-gray-400 ">
+                                    <i class="pi pi-search"></i> 
+                                    <input type="search" (input)="dt2.filterGlobal($any($event.target).value , 'contains')" placeholder="Buscar" class="p-2 outline-none">
+                                </div>
+                            </div>
+                        </div>
+                    </ng-template>
+                    <ng-template pTemplate="header" let-columns>
+                        <tr>
+                            <th class="text-center">CALLE</th>
+                            <th class="text-center">NUM. EXT.</th>
+                            <th class="text-center">NUM. INT.</th>
+                            <th class="text-center">REFERENCIA</th>
+                            <th class="text-center">CIUDAD</th>
+                            <th class="text-center">C.P.</th>
+                            <th class="text-center">TIPO</th>
+                            <th style="width: 100px;">Predef.</th>
+                            <th style="width: 100px;"></th>
+
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-rowData let-columns="columns">
+
+                        <tr>
+                            <td class="text-center">{{ rowData.street}}</td>
+                            <td class="text-center">#{{ rowData.exterior_number}}</td>
+                            <td class="text-center">{{ rowData.interior_number}}</td>
+                            <td class="text-center">{{ rowData.reference}}</td>
+                            <td class="text-center">{{ rowData.city}} - {{ rowData.state}}</td>
+                            <td class="text-center">{{ rowData.zip}}</td>
+                            <td class="text-center">
+                                @if(rowData.type == 'from'){
+                                    <span class="bg-green-500 p-2 text-white rounded-lg text-xs flex flex-1 text-center">RECOLECCIÓN</span>
+                                }
+                                @else{
+                                    <span class="bg-purple-500 p-2 text-white rounded-lg text-xs flex flex-1 text-center">ENTREGA</span>
+                                }
+                            </td>
+                            <td class="text-center">
+                                @if(rowData.is_default ){
+                                    <span class="text-green-500 p-2 ">
+                                        <i class="pi pi-check"></i>
+                                    </span>
+                                }@else {
+                                    <p-button label="" icon="pi pi-check" [outlined]="true"   [rounded]="true"
+                                        (click)="confirmPredefinida(rowData.id)" />
+                                }
+                            </td>
+                           
+                            <td>
+                                <p-button icon="pi pi-trash" [rounded]="true" class="text-pink-500"   
+                                    outlined="true"
+                                    severity="danger"
+                                    (click)="confirmDeleteAddress(rowData.id)"  />
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            }
+         
+         </div> 
+         <!-- END MAIN SECTION -->
+    </div>
+    
+   
+}
+<p-toast />
+<p-confirmDialog />
+
+<p-dialog header="Registrar Pago" [modal]="true" [(visible)]="dialogVisible" [style]="{ width: '30%' }">
+    <form [formGroup]="paymentForm" (ngSubmit)="savePayment()">
+        <span class="p-text-secondary block mb-5">Ingrese los datos del pago.</span>
+        <div class="w-100 mb-3">
+            <label for="monto" class="p-text-secondary  w-6rem">Monto</label> <br>
+            <input pInputText id="monto" class="border border-gray-200 p-2 w-full " autocomplete="off"  formControlName="amount" type="number" />
+        </div>
+        <div class="mb-5">
+            <label for="file" class="p-text-secondary w-6rem">Comprobante de pago (imagen, pdf)</label> <br> <br>
+            <input type="file" id="file" class="flex-auto" autocomplete="off"   (change)="onFileSelected($event)"/>
+        </div>
+        <div class="flex justify-between gap-2">
+            <p-button label="Cancelar" severity="secondary" (click)="dialogVisible = false" class="text-red-400 p-2" />
+            <p-button label="Guardar" (click)="savePayment()" severity="success" class="text-green-500 border-green-200 border p-2" />
+        </div>
+    </form>
+</p-dialog>
+
+<p-dialog header="Nueva Dirección" [modal]="true" [(visible)]="dialogVisibleAddress" [style]="{ width: '50%' }">
+    <span class="p-text-secondary block mb-5">Ingrese los datos de la dirección</span>
+    <form [formGroup]="form">
+        <div class="mb-4">
+          <label for="street" class="text-sm">Calle</label><br>
+          <input
+            type="text"
+            id="street"
+            pInputText
+            formControlName="street"
+            class="p-2 border border-gray-500 w-full"
+          />
+        </div>
+        <div class="flex gap-2">
+            <div class="mb-4 flex-1">
+                <label for="exterior_number" class="text-sm">Número Exterior</label><br>
+                <input
+                  type="text"
+                  id="exterior_number"
+                  pInputText
+                  formControlName="exterior_number"
+                  class="p-2 border border-gray-500 w-full"
+                />
+              </div>
+            <div class="mb-4 flex-1">
+                <label for="interior_number" class="text-sm">Número Interior</label><br>
+                <input
+                  type="text"
+                  id="interior_number"
+                  pInputText
+                  formControlName="interior_number"
+                  class="p-2 border border-gray-500 w-full"
+                />
+              </div>
+        </div>
+        <div class="mb-4">
+          <label for="city" class="text-sm">Ciudad</label><br>
+          <input
+            type="text"
+            id="city"
+            pInputText
+            formControlName="city"
+            class="p-2 border border-gray-500 w-full"
+          />
+        </div>
+      
+        <div class="mb-4">
+          <label for="state" class="text-sm">Estado</label><br>
+          <input
+            type="text"
+            id="state"
+            pInputText
+            formControlName="state"
+            class="p-2 border border-gray-500 w-full"
+          />
+        </div>
+        <div class="flex gap-2">
+            <div class="mb-4 flex-1">
+                <label for="reference" class="text-sm">Referencia</label><br>
+                <input
+                    type="text"
+                    id="reference"
+                    pInputText
+                    formControlName="reference"
+                    class="p-2 border border-gray-500 w-full"
+                />
+            </div>
+      
+            <div class="mb-4 flex-1">
+                <label for="zip" class="text-sm">Código Postal</label><br>
+                <input
+                    type="text"
+                    id="zip"
+                    pInputText
+                    formControlName="zip"
+                    class="p-2 border border-gray-500 w-full"
+                />
+            </div>
+      
+       </div>
+       <div class="flex gap-2">
+            <div class="mb-4 flex-1">
+                <label for="type" class="text-sm">Tipo</label><br>
+                <p-select formControlName="type" [options]="types" optionLabel="text" [style]="{'width':'100% ;border:none'}"
+                    placeholder="Tipo de dirección" />    
+            </div>
+        
+            <div class="mb-4 flex-1" >
+                <label for="id_client" class="text-sm">Principal</label><br>
+                <p-select formControlName="is_default" [options]="default" optionLabel="text" 
+                    class="w-100"
+                    [style]="{'width':'100% ;border:none'}"
+                    placeholder="Es Principal" />    
+            </div>
+        </div>
+      
+        <div class="mb-4 py-4">
+            <p-button label="Guardar" 
+                severity="success" 
+                outlined="true"
+                icon="pi pi-check"
+                [class]="'w-100 flex-1'"
+                [disabled]="!form.valid"
+                (click)="saveAddress()" 
+                />
+        </div>
+      </form>
+      
+</p-dialog>

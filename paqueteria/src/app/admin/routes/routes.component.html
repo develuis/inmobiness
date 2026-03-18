@@ -1,0 +1,87 @@
+@if(!loaded){
+    <app-preloader></app-preloader>
+}
+@else{
+    <div class="w-100">
+        <!-- TITLE SECTION -->
+         <div class="flex justify-between w-100">
+            <h1 class="text-2xl font-bold text-gray-700">Rutas</h1>
+            <div>
+                <p-button icon="pi pi-plus" 
+                    outlined="true"
+                    label="Nueva Ruta"
+                    severity="primary"
+                    size="small"
+                   
+                    [routerLink]="['/admin/rutas/add']">
+                </p-button>
+             
+            </div>
+         </div>
+
+        <!-- MAIN SECTION -->
+         <div class="w-100 py-4">
+            <p-table [value]="data" [tableStyle]="{ 'min-width': '50rem' }" dataKey="id"
+                #dt2  [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
+                [paginator]="true" currentPageReportTemplate="Mostrando {first} hasta {last} of {totalRecords}"
+                [globalFilterFields]="['user.name','user.email','saldo']">
+                <ng-template pTemplate="caption">
+                    <div class="flex justify-end pt-2">
+                        
+                        <div class="border-gray-200">
+                            <div class="w-64 flex p-2 h-10 items-center gap-2 text-gray-400 ">
+                                <i class="pi pi-search"></i> 
+                                <input type="search" (input)="dt2.filterGlobal($any($event.target).value , 'contains')" placeholder="Buscar" class="p-2 outline-none">
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header" let-columns>
+                    <tr>
+                        <th class="text-center">Id</th>
+                        <th class="text-center">Fecha Inicio</th>
+                        <th class="text-center">Fecha Fin</th>
+                        <th class="text-center">Status</th>
+                        <th class="text-center">Responsable</th>
+                        <th class="text-center"># Paquetes</th>
+                        <th style="width: 100px;"></th>
+                        <th style="width: 200px;"></th>
+                        
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-columns="columns">
+
+                    <tr>
+                        <td class="text-center">{{ rowData.route.id.toString().padStart(4, '0') }}</td>
+                        <td class="text-center">{{ rowData.route.start_date | date:'mediumDate' }}</td>
+                        <td class="text-center">{{ rowData.route.end_date | date:'mediumDate'}}</td>
+                        <td class="text-center">{{ rowData.route.status }}</td>
+                        <td class="text-center">{{ rowData.route.user.name }}</td>
+                        <td class="text-center">{{ rowData.packages.length }}</td>
+                        <td class="text-center">
+                            <p-button icon="pi pi-trash" [rounded]="true" class="text-pink-500"   
+                                size="small"
+                                outlined="true"
+                                severity="danger"
+                                (click)="confirmDelete(rowData.route.id)"  />
+                        </td>
+                        <td class="text-end">
+                            <p-button label="Detalles" icon="pi pi-arrow-right" 
+                            [outlined]="true"
+                            severity="warn"
+                            [routerLink]="['/admin/rutas/view/'+rowData.route.id]"/>
+                        </td>
+                      
+                    </tr>
+                </ng-template>
+            </p-table>
+
+
+
+
+         </div> 
+         <!-- END MAIN SECTION -->
+    </div>
+}
+<p-toast />
+<p-confirmDialog />

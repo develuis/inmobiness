@@ -1,0 +1,66 @@
+<div class="w-100">
+    <!-- TITLE SECTION -->
+    <div class="flex justify-between w-100">
+        <h1 class="text-2xl font-bold text-gray-700">
+            @if(is_edit){
+                <span>Editar Usuario</span>
+            }@else{
+                <span>Agregar Usuario</span>
+            }
+        </h1>
+        <div>
+            <button  type="button"
+                class="text-pink-500 px-4 py-2 rounded-lg focus:outline-none hover:text-pink-200"
+                    [routerLink]="['/admin/users']"  >
+                <i class="pi pi-arrow-left"></i> Volver
+        </button>
+
+        </div>
+    </div>
+
+    <!-- MAIN SECTION -->
+    <div class="w-100 py-4">
+        <form [formGroup]="form" >
+            <div class="flex">
+                <div class="mb-4 flex-1 ">
+                    <label for="" class="text-sm">Nombre</label> <br>
+                    <input type="text" pInputText formControlName="name" class="p-2 border border-gray-500" />
+                </div>
+                <div class="mb-4 flex-1 ">
+                    <label for="" class="text-sm">Email</label> <br>
+                    <input type="email" pInputText formControlName="email" class="p-2 border border-gray-500" />
+                </div>
+                @if(!is_edit){
+                    <div class="mb-4 flex-1 ">
+                        <label for="" class="text-sm">Password</label> <br>
+                        <input type="password" pInputText formControlName="password" class="p-2 border border-gray-500" />
+                    </div>
+                    <div class="mb-4 flex-1 ">
+                        <label for="" class="text-sm">Confirmar Password</label> <br>
+                        <input type="password" pInputText formControlName="password_confirm" class="p-2 border border-gray-500" />
+                    </div>
+                }
+                <div class="mb-4 mx-3 flex-1">
+                    <label for="" class="text-sm">Nivel</label> <br>
+                    <p-select formControlName="level" [options]="levels" optionLabel="text" [style]="{'width':'100% ;border:none'}"
+                      placeholder="Select a city" />
+
+                </div>
+            </div>
+            <div class="flex-1">
+                <div class="mb-4 flex-1 ">
+                    <button  type="button"
+                        [disabled]="form.invalid"
+                        (click)="save()"
+                        class="text-green-500 px-4 py-2 rounded-lg focus:outline-none hover:text-pink-200 border-green-500 border" >
+                        <i class="pi pi-check"></i> Guardar
+                    </button>
+                </div>
+            </div>
+        </form>
+
+    </div>
+
+</div>
+<p-toast />
+<p-confirmDialog />

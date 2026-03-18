@@ -1,0 +1,68 @@
+<div class="flex">
+  <div class="sm:hidden md:flex md:w-2/3 bg-blue-500 bg-login">
+
+  </div>
+  <div class="sm:w-full md:w-1/3 ">
+    <div class="bg-gray-100 flex justify-center h-screen items-center">
+
+        <!-- Login Card -->
+        <div class="w-full max-w-sm p-6 w-50">
+          <img src="" alt="" class="mt-6">
+          <div class="p-6">
+            <h1 class="text-2xl font-bold text-gray-700 text-center">Iniciar Sesión</h1>
+            <form class="mt-6" [formGroup]="form" novalidate>
+              <!-- Email -->
+              <div class="mb-4">
+                <label for="email" class="block text-gray-600 font-semibold mb-1">Correo electrónico</label>
+                <input
+                  type="email"
+                  id="email"
+                  formControlName="email"
+                  (keyup)="loginError=false" (keyup.enter)="form.valid ? login() : ''"
+                  class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent"
+                  placeholder="ejemplo@correo.com"
+                  required>
+              </div>
+              <!-- Password -->
+              <div class="mb-4">
+                <label for="password" class="block text-gray-600 font-semibold mb-1">Contraseña</label>
+                <input
+                  type="password"
+                  id="password"
+                  formControlName="password"
+                  (keyup)="loginError=false" (keyup.enter)="form.valid ? login() : ''"
+                  class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent"
+                  placeholder="********"
+                  required>
+              </div>
+              @if(loginError){
+                <div class="mb-4 text-center text-pink-700">
+                  Credenciales incorrectas
+                </div>
+              }
+
+              <!-- Login Button -->
+              <div class="mb-4">
+                <button
+                (click)="login()" [disabled]="!form.valid"
+                  type="submit"
+                  role="button"
+                  class="w-full bg-amber-500 text-white px-4 py-2 rounded-lg hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-haznegocio-400">
+                  Iniciar Sesión
+                </button>
+              </div>
+              <!-- Forgot Password -->
+              <div class="text-center">
+                <a href="#" class="text-sm text-blue-500 hover:underline">¿Olvidaste tu contraseña?</a>
+              </div>
+            </form>
+            <div class="text-center">
+              <label>¿No tienes cuenta?</label>
+              <a [routerLink]="['/register']" class="text-sm text-blue-500 hover:underline"> Registrarse</a>
+            </div>
+          </div>
+          </div>
+
+    </div>
+  </div>
+</div>

@@ -1,0 +1,22 @@
+<aside class="w-64 flex flex-col h-screen">
+    <div class="p-4 text-center text-lg font-bold ">
+      <h3>Logo</h3>
+      <!--<img src="assets/logo-black.png"/>-->
+    </div>
+    <nav class="flex-1 px-2">
+
+      <ul>
+        @for (item of currents; track $index) {
+          <li class="px-4 py-2 my-4 ">
+            <a [routerLink]="[item.path]" routerLinkActive="text-pink-700 font-semibold"
+                class="flex items-center gap-2 text-gray-400 hover:text-pink-700 hover:font-semibold"
+                [ngClass]="{'text-pink-700 font-semibold': currentRoute == item.path}"
+                (click)="currentRoute=item.path"
+              >
+              <i [class]="item.icon" style="font-size: 1.5rem"></i> {{item.title}}
+            </a>
+          </li>
+        }
+       </ul>
+    </nav>
+</aside>

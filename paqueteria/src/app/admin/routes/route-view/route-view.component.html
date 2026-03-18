@@ -1,0 +1,235 @@
+@if(!loaded){
+    <app-preloader></app-preloader>
+}
+@else{  
+    <div class="w-100">
+        <!-- TITLE SECTION -->
+         <div class="flex justify-between w-100">
+            <div>
+                <h1 class="text-2xl font-bold text-gray-700">Ruta #{{ id.toString().padStart(4, '0') }}</h1>
+                @if(data!=null){
+                    <h2 class="text-md text-gray-600">{{ data.start_date | date:'mediumDate'  }}</h2>
+                    <h2 class="text-xs text-gray-600">{{ data.user.name }}</h2>
+                }
+                
+            </div>
+
+            <div class="">
+                <p-button icon="pi pi-arrow-left" 
+                    outlined="true"
+                    label="Listado de Rutas"
+                    severity="warn"
+                    size="small"
+                    [routerLink]="[ level == 1 ? '/admin/rutas' : '/admin/mis-rutas'  ]">
+                </p-button> 
+            </div>
+         </div>
+         <div class="flex justify-end gap-2">
+           
+                <a [href]="url_file" class="p-button-help font-bold p-button-sm p-button-outlined mx-2">
+                    <i class="pi pi-download"></i> Hoja de ruta
+                </a>
+
+            <p-button icon="pi pi-check" 
+                    outlined="true"
+                    label="Finalizar Ruta"
+                    severity="success"
+                    size="small"
+                    (click)="confirmFin()">
+                </p-button>
+         </div>
+         <!-- STATS -->
+         <div class="w-100 py-2 flex gap-4">
+           
+            <div class="flex p-2 flex-1 border rounded">
+                <div class="p-2 text-2xl" >
+                  <span class="text-2xl"><i class="pi pi-box"></i></span>
+                </div>
+                <div class="p-2">
+                    <h2 class="text-md text-gray-600">Paquetes</h2>
+                    <p class="text-2xl text-gray-400">{{packages.length}}</p>
+                </div>
+            </div>
+            <div class="flex p-2 flex-1 border rounded">
+                <div class="p-2 text-2xl" >
+                  <span class="text-2xl"><i class="pi pi-dollar"></i></span>
+                </div>
+                <div class="p-2">
+                    <h2 class="text-md text-gray-600">Monto Total</h2>
+                    <p class="text-2xl text-gray-400">
+                        @if(amount != null){
+                            
+                            {{amount | currency:'USD'}}
+                        }@else{
+                            <span>$0.00</span>
+                        }
+                    </p>
+                </div>
+            </div>
+             <div class="flex p-2 flex-1 border rounded">
+                <div class="p-2 text-2xl" >
+                  <span class="text-2xl"><i class="pi pi-dollar"></i></span>
+                </div>
+                <div class="p-2">
+                    <h2 class="text-md text-gray-600">Monto Entregado</h2>
+                    <p class="text-2xl text-gray-400">
+                        @if(amount_file != null){
+                            {{amount_file | currency:'USD'}}
+                        }@else{
+                            <span>$0.00</span>
+                        }
+                    </p>
+                </div>
+            </div>
+            <div class="flex p-2 flex-1 border rounded">
+                <div class="p-2 text-2xl" >
+                  <span class="text-2xl"><i class="pi pi-file"></i></span>
+                </div>
+                <div class="p-2">
+                    <h2 class="text-md text-gray-600">Archivo de Ruta</h2>
+                    <p class="text-2xl text-gray-400">
+                        @if(data.file==''){
+                            <p-button icon="pi pi-upload" 
+                                variant="text"
+                                [style]="{ 'width': '100%' }"
+                                label="Subir"
+                                severity="secondary"
+                              
+                                [routerLink]="[ level == 1 ? '/admin/rutas/view/'+id+'/upload' : '/admin/mis-rutas/view/'+id+'/upload'  ]"
+                                size="small">
+                            </p-button>
+                        }@else{
+                            <a href="{{data.file}}" target="_blank" class="p-button-help font-bold p-button-sm p-button-outlined mx-2">
+                                <i class="pi pi-download"></i>
+                            </a>
+
+                            <a 
+                                [routerLink]="[ level == 1 ? '/admin/rutas/view/'+id+'/upload' : '/admin/mis-rutas/view/'+id+'/upload']"
+                                class="font-bold p-button-sm p-button-outlined ml-2 p-button-warn">
+                                <i class="pi pi-refresh"></i>
+                            </a>
+                           
+                        }
+                    </p>
+                </div>
+            </div>
+            <div class="flex p-2 flex-1 border rounded">
+                <div class="p-2 text-2xl" >
+                  <span class="text-2xl"><i class="pi pi-car"></i></span>
+                </div>
+                <div class="p-2">
+                    <h2 class="text-md text-gray-600">Estatus</h2>
+                    <p class="text-xl text-gray-400 text-capitalize">{{data.status}}</p>
+                </div>
+            </div>
+            
+         </div>
+        @if(data.file==''){
+            <div class="py-2">
+                <p-message severity="warn" icon="pi pi-exclamation-circle" text="Aún no se captura el archivo de evidencia de ruta" styleClass="h-full" />
+            </div>
+        }
+         <!-- MAIN SECTION -->
+         <div class="w-100 py-4">
+           
+            <p-table [value]="packages" [tableStyle]="{ 'min-width': '50rem' }" dataKey="id"
+                [expandedRowKeys]="expandedRows"
+                
+                #dt2  [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
+                [paginator]="true" currentPageReportTemplate="Mostrando {first} hasta {last} of {totalRecords}"
+                [globalFilterFields]="['package.track_number','package.pick_date','client.user.name']">
+                <ng-template pTemplate="caption">
+                    <div class="flex justify-end pt-2">
+                        
+                        <div class="border-gray-200">
+                            <div class="w-64 flex p-2 h-10 items-center gap-2 text-gray-400 ">
+                                <i class="pi pi-search"></i> 
+                                <input type="search" (input)="dt2.filterGlobal($any($event.target).value , 'contains')" placeholder="Buscar" class="p-2 outline-none">
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header" let-columns>
+                    <tr> 
+                        <th style="width: 5rem"></th>
+                        <th class="text-center"># GUIA</th>
+                        <th class="text-center">FECHA RECOL.</th>
+                        <th class="text-center">CLIENTE</th>
+                        <th class="text-center">PRECIO</th>
+                        <th class="text-center">ZONA</th>
+                        <th class="text-center">STATUS</th>
+                        <th class="text-center"></th>
+
+
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-columns="columns" let-expanded="expanded">
+
+                    <tr>
+                        <td>
+                            <p-button type="button" pRipple [pRowToggler]="rowData" 
+                                [text]="true"  [rounded]="true" [plain]="true" 
+                                [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'" />
+                        </td>
+                        <td class="text-center">{{ rowData.package.track_number }}</td>
+                        <td class="text-center">{{ rowData.package.pick_date | date:'yyy-mm-dd h:m:s' }}</td>
+                        <td class="text-center">{{ rowData.package.client.user.name }}</td>
+                        <td class="text-center">{{ rowData.package.price | currency:'USD' }}</td>
+                        <td class="text-center">{{ rowData.package.region.name }}</td>
+                        <td class="text-center">
+                            @if(rowData.progress == ''){
+                                <span class="mx-2 bg-gray-200">No encontrado</span>
+                                
+                                <p-tag severity="secondary" value="No encontrado" />
+                            }
+                            @if(rowData.progress == 'done'){
+                                
+                                <p-tag severity="success" value="Done" />
+                            }
+                            @if(rowData.progress == 'failed'){
+                                
+                                <p-tag severity="danger" value="Failed" />
+                            }
+
+                        </td>
+                        <td class="text-center">
+                            @if(level==1){
+                                <p-button icon="pi pi-trash" [rounded]="true" class="text-pink-500"   
+                                    size="small"
+                                    outlined="true"
+                                    severity="danger"
+                                    
+                                    (click)="confirmDelete(rowData.id)"  />
+                            }
+                        </td>
+
+                    </tr>
+                </ng-template>
+                <ng-template #expandedrow  let-item>
+                    <tr>
+                        <td colspan="4">
+                            <div class="p-3">
+                                <div>
+                                    <h3 class="text-xs font-bold text-gray-700">Detalles del paquete</h3>
+                                    <div class="flex">
+                                        <div class="w-16">
+                                            <img [src]="img_url" alt="" class="w-100">
+                                        </div>
+                                        <div class="flex-1">
+
+                                        </div>
+                                    </div>
+                                </div>
+                            
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+
+         </div> 
+         <!-- END MAIN SECTION -->
+    </div>
+}
+<p-toast />
+<p-confirmDialog />
