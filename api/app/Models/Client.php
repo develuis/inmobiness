@@ -9,10 +9,7 @@ class Client extends Model
     protected $fillable = [
         'rfc',
         'address',
-        'lat',
-        'lng',
         'phone',
-        'balance',
         'id_user',
     ];
     public function user()
