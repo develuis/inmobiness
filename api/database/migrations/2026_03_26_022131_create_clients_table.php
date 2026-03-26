@@ -6,18 +6,17 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    public function up(): void
-    {
-        Schema::create('clients', function (Blueprint $table) {
-            $table->id();
-            $table->string('rfc')->nullable();
-            $table->string('address')->nullable();
-            $table->string('phone')->nullable();
-            $table->unsignedBigInteger('id_user');
-            $table->timestamps();
-        });
-    }
-
+   public function up(): void
+{
+    Schema::create('clients', function (Blueprint $table) {
+        $table->id();
+        $table->string('rfc')->nullable();
+        $table->string('address')->nullable();
+        $table->string('phone')->nullable();
+        $table->unsignedBigInteger('id_user');
+        $table->timestamps();
+    });
+}
 
     public function down(): void
     {
