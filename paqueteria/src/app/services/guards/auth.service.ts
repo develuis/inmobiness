@@ -11,7 +11,7 @@ export class AuthService {
 
 
   options: any;
-  urlAuth = environment.appUrl.replace('api/','api/login')
+  urlAuth = environment.appUrl;
   urlUser=environment.appUrl+"userdata"
   registerUserUrl = environment.appUrl.replace('api/','api/register')
   constructor(private http: HttpClient,private router: Router) {
@@ -24,7 +24,7 @@ export class AuthService {
     };
   }
   login(e: string, p: string) {
-     return this.http.post(this.urlAuth, {
+     return this.http.post(`${this.urlAuth}api/login`, {
        email: e,
        password: p,
      }, this.options);
